@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom';
-import { ChevronDown, Menu, X, Play, X as CloseIcon } from 'lucide-react';
+import { ChevronDown, Menu, X, Maximize2, Minimize2, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { useI18n, type Language } from '../i18n';
 import './language-picker.css';
@@ -21,9 +21,12 @@ export function Layout({}: Props) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [podcastEpisode, setPodcastEpisode] = useState<PodcastEpisode | null>(null);
+  const [playerExpanded, setPlayerExpanded] = useState(false);
   const languages: Language[] = ['EN', 'ES', 'FR', 'DE'];
   const closeMenu = () => setMenuOpen(false);
   const goToCollection = () => { closeMenu(); if (location.pathname === '/') { document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); } else { navigate('/'); window.setTimeout(() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100); } };
+  const startPodcast = (episode: PodcastEpisode) => { setPodcastEpisode(episode); setPlayerExpanded(true); };
+  const closePodcast = () => { setPodcastEpisode(null); setPlayerExpanded(false); };
 
   return <div className="site-shell">
     <div className="announcement">ADeriva.Store — Indie · Rock · Alternative</div>
@@ -39,20 +42,32 @@ export function Layout({}: Props) {
         <div className="language-picker"><select value={language} onChange={e => setLanguage(e.target.value as Language)} aria-label="Language">{languages.map(item => <option key={item} value={item}>{item}</option>)}</select><ChevronDown size={13} aria-hidden="true" /></div>
       </nav>
     </header>
-    <main id="top"><Outlet context={{ playPodcast: setPodcastEpisode }} /></main>
+    <main id="top"><Outlet context={{ playPodcast: startPodcast }} /></main>
 
-    {podcastEpisode && <div className="persistent-podcast-player" role="region" aria-label="Podcast player">
-      <div className="persistent-podcast-info"><span>AD/FM</span><strong>EP. {podcastEpisode.num}</strong><small>{podcastEpisode.title}</small></div>
-      <div className="persistent-podcast-frame"><iframe title={`ADeriva episode ${podcastEpisode.num} persistent player`} src={podcastEpisode.embed} allow="autoplay; encrypted-media" scrolling="no" frameBorder="0" /></div>
-      <button className="persistent-podcast-close" type="button" onClick={() => setPodcastEpisode(null)} aria-label="Close podcast player"><CloseIcon size={18} /></button>
+    {podcastEpisode && <div className={`persistent-podcast-player${playerExpanded ? ' expanded' : ' collapsed'}`} role="region" aria-label="Podcast player">
+      <div className="persistent-podcast-top">
+        <div className="persistent-podcast-badge">AD/FM</div>
+        <div className="persistent-podcast-copy">
+          <strong>EP. {podcastEpisode.num}</strong>
+          <span>{podcastEpisode.title}</span>
+        </div>
+        <div className="persistent-podcast-actions">
+          <button type="button" onClick={() => setPlayerExpanded(v => !v)} aria-label={playerExpanded ? 'Minimize player' : 'Open player'} title={playerExpanded ? 'Minimize player' : 'Open player'}>{playerExpanded ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button>
+          <a href={podcastEpisode.url} target="_blank" rel="noreferrer" aria-label="Open episode on iVoox" title="Open on iVoox"><ExternalLink size={17} /></a>
+          <button type="button" onClick={closePodcast} aria-label="Close podcast player" title="Close"><X size={19} /></button>
+        </div>
+      </div>
+      {playerExpanded && <div className="persistent-podcast-frame"><iframe title={`ADeriva episode ${podcastEpisode.num} player`} src={podcastEpisode.embed} allow="autoplay; encrypted-media; fullscreen" allowFullScreen scrolling="no" frameBorder="0" /></div>}
     </div>}
 
     <style>{`
-      .persistent-podcast-player{position:fixed;left:18px;right:18px;bottom:18px;z-index:2000;display:flex;align-items:center;gap:16px;padding:10px 14px;background:#111;color:#fff;box-shadow:0 8px 30px rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.14)}
-      .persistent-podcast-info{display:flex;align-items:center;gap:10px;min-width:0;flex:1}.persistent-podcast-info span{font-size:11px;font-weight:800;letter-spacing:.12em;opacity:.7}.persistent-podcast-info strong{font-size:12px;white-space:nowrap}.persistent-podcast-info small{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.82}
-      .persistent-podcast-frame{width:min(520px,55vw);height:80px;flex:none}.persistent-podcast-frame iframe{display:block;width:100%;height:80px;border:0}
-      .persistent-podcast-close{display:grid;place-items:center;width:34px;height:34px;flex:none;border:0;background:transparent;color:#fff;cursor:pointer}
-      @media(max-width:700px){.persistent-podcast-player{left:8px;right:8px;bottom:8px;gap:8px;padding:8px}.persistent-podcast-info{display:none}.persistent-podcast-frame{width:calc(100vw - 68px);height:76px}.persistent-podcast-frame iframe{height:76px}}
+      .persistent-podcast-player{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2000;width:min(920px,calc(100vw - 36px));background:#111;color:#fff;box-shadow:0 12px 40px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.16);overflow:hidden;border-radius:3px}
+      .persistent-podcast-top{min-height:68px;display:flex;align-items:center;gap:14px;padding:8px 12px 8px 14px}
+      .persistent-podcast-badge{width:46px;height:46px;display:grid;place-items:center;flex:none;background:#a5241f;color:#fff;font-size:10px;font-weight:900;letter-spacing:.08em;border-radius:2px}
+      .persistent-podcast-copy{min-width:0;display:flex;align-items:center;gap:10px;flex:1}.persistent-podcast-copy strong{font-size:12px;white-space:nowrap;letter-spacing:.04em}.persistent-podcast-copy span{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:rgba(255,255,255,.82)}
+      .persistent-podcast-actions{display:flex;align-items:center;gap:3px;flex:none}.persistent-podcast-actions button,.persistent-podcast-actions a{width:36px;height:36px;display:grid;place-items:center;border:0;background:transparent;color:#fff;cursor:pointer;text-decoration:none;opacity:.78;border-radius:50%}.persistent-podcast-actions button:hover,.persistent-podcast-actions a:hover{background:rgba(255,255,255,.1);opacity:1}
+      .persistent-podcast-frame{width:100%;height:178px;background:#111}.persistent-podcast-frame iframe{display:block;width:100%;height:178px;border:0}
+      @media(max-width:700px){.persistent-podcast-player{width:calc(100vw - 16px);bottom:8px}.persistent-podcast-top{min-height:60px;padding:6px 7px 6px 9px;gap:9px}.persistent-podcast-badge{width:40px;height:40px;font-size:9px}.persistent-podcast-copy{display:block}.persistent-podcast-copy strong{display:block;margin-bottom:3px}.persistent-podcast-copy span{display:block;font-size:11px}.persistent-podcast-actions button,.persistent-podcast-actions a{width:32px;height:32px}.persistent-podcast-frame,.persistent-podcast-frame iframe{height:190px}}
     `}</style>
 
     <footer><Link className="wordmark" to="/"><img className="site-logo footer-logo" src={logo} alt="ADeriva" /></Link><p>© 2026 ADeriva Store.</p><a href="https://www.instagram.com/aderiva.store/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></footer>
