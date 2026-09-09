@@ -1,0 +1,32 @@
+:root{--ink:#030303;--red:#a5241f;--paper:#c3ac90}
+/* ADeriva visual language: ripped paper, ink splashes and sticker-like symbols. No decorative micro-copy. */
+.brand-intro,.culture-worlds,.shop-section,.podcast-section,.instagram-strip,.community-signup,.brand-positioning,.about-content,.about-hero-image,.podcast-page-hero{position:relative;isolation:isolate}
+/* Reusable torn-paper edges. */
+.brand-intro::before,.shop-section::before,.instagram-strip::before{content:"";position:absolute;z-index:-1;pointer-events:none;left:0;right:0;top:-10px;height:24px;background:var(--paper);clip-path:polygon(0 35%,4% 55%,8% 25%,13% 65%,18% 35%,23% 58%,28% 20%,34% 62%,40% 30%,46% 57%,52% 22%,58% 64%,64% 30%,70% 56%,76% 25%,82% 62%,88% 30%,94% 58%,100% 24%,100% 100%,0 100%);opacity:.95}
+.shop-section::before{top:-7px;height:18px;opacity:.75;transform:rotate(.2deg)}
+.instagram-strip::before{top:-8px;opacity:.55}
+/* Organic ink splashes: layered irregular blobs rather than dots/text. */
+.brand-intro::after,.culture-worlds::after,.podcast-section::after,.community-signup::after,.about-content::after{content:"";position:absolute;pointer-events:none;width:145px;height:105px;background:var(--red);opacity:.18;filter:blur(.2px);clip-path:polygon(8% 40%,17% 30%,14% 17%,28% 22%,35% 8%,47% 18%,57% 6%,62% 21%,79% 15%,76% 31%,92% 35%,82% 47%,96% 57%,81% 65%,88% 81%,69% 77%,61% 94%,50% 78%,38% 92%,32% 76%,16% 83%,21% 65%,4% 58%);z-index:-1}
+.brand-intro::after{right:4vw;bottom:12%;transform:rotate(-14deg) scale(1.1)}
+.culture-worlds::after{left:2vw;top:20%;transform:rotate(18deg) scale(.85);background:var(--ink);opacity:.15}
+.podcast-section::after{right:5vw;top:15%;transform:rotate(-22deg);background:var(--red);opacity:.22}
+.community-signup::after{left:5vw;bottom:8%;transform:rotate(10deg) scale(1.25);background:var(--ink);opacity:.12}
+.about-content::after{right:4vw;top:18%;transform:rotate(8deg) scale(.8);background:var(--red);opacity:.17}
+/* Sticker-like symbols: simple oversized marks, never text. */
+.culture-worlds .section-heading::after{content:"✦";position:absolute;right:10%;top:5%;font-size:72px;line-height:1;color:var(--red);transform:rotate(17deg);opacity:.8;text-shadow:9px 8px 0 var(--paper)}
+.shop-section .section-heading::after{content:"✶";position:absolute;right:7%;top:8%;font-size:58px;color:var(--red);transform:rotate(-11deg);opacity:.65}
+.podcast-section .podcast-copy::after{content:"◆";position:absolute;right:10%;bottom:16%;font-size:52px;color:var(--paper);transform:rotate(19deg);opacity:.65}
+.instagram-strip::after{content:"✦";position:absolute;right:8%;bottom:20%;font-size:64px;color:var(--red);transform:rotate(-18deg);opacity:.7}
+/* Poster/paper layering in the culture worlds. */
+.world-card{position:relative}.world-card:nth-child(1){transform:rotate(-1deg)}.world-card:nth-child(2){transform:translateY(14px) rotate(.7deg)}.world-card:nth-child(3){transform:rotate(-.6deg)}
+.world-card:nth-child(1)::before,.world-card:nth-child(3)::before{content:"";position:absolute;z-index:3;top:-7px;width:62%;height:22px;background:var(--paper);opacity:.85;clip-path:polygon(0 20%,8% 42%,17% 17%,28% 38%,39% 12%,51% 34%,62% 15%,73% 40%,84% 19%,100% 35%,100% 100%,0 100%)}.world-card:nth-child(1)::before{left:8%;transform:rotate(-2deg)}.world-card:nth-child(3)::before{right:8%;transform:rotate(2deg)}
+/* Collection stays controlled: subtle paper edge + sticker symbol, product imagery untouched. */
+.curated-image{border:1px solid rgba(3,3,3,.2);box-shadow:7px 7px 0 rgba(165,36,31,.13)}.coming-soon .curated-product:nth-child(3n+1){transform:translateY(4px)}.coming-soon .curated-product:nth-child(3n+2){transform:translateY(-4px)}
+/* Podcast art gets a physical, pasted-poster feel. */
+.podcast-section .podcast-art{transform:rotate(-1.2deg);box-shadow:9px 10px 0 rgba(165,36,31,.18)}
+/* About hero gets only one strong accent so it doesn't compete with the image. */
+.about-hero-image::after{content:"✦";position:absolute;right:7%;bottom:12%;z-index:2;color:var(--red);font-size:76px;transform:rotate(12deg);text-shadow:8px 8px 0 var(--paper);opacity:.9;pointer-events:none}
+/* Small hand-drawn strokes/symbols, not words. */
+.brand-positioning::after{content:"✦";position:absolute;right:7%;top:30%;font-size:54px;color:var(--red);transform:rotate(-20deg);opacity:.65}
+.podcast-page-hero::after{content:"✦";position:absolute;right:7%;bottom:12%;z-index:2;font-size:70px;color:var(--red);transform:rotate(15deg);text-shadow:7px 7px 0 var(--paper);opacity:.85}
+@media(max-width:800px){.world-card:nth-child(1),.world-card:nth-child(2),.world-card:nth-child(3){transform:none}.world-card:nth-child(2){margin-top:8px}.world-card:nth-child(1)::before,.world-card:nth-child(3)::before{height:14px}.culture-worlds .section-heading::after,.shop-section .section-heading::after{font-size:45px}.about-hero-image::after,.podcast-page-hero::after{font-size:52px}}

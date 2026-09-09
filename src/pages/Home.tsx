@@ -1,0 +1,24 @@
+import { ArrowRight, Instagram, Mic2 } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { products, heroImages, getLocalizedProduct } from '../data';
+import { getProductId } from '../productIds';
+import { useI18n } from '../i18n';
+import '../brand-hero.css';
+
+export function Home() {
+  const selectedProducts = products;
+  const { language, t } = useI18n();
+  const brandHero = '/images/WhatsApp Image 2026-08-18 at 11.45.22.jpeg';
+  const location = useLocation(); const navigate = useNavigate();
+  const goToCollection = () => { if (location.pathname === '/') document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); else navigate('/#collection'); };
+  return <>
+    <section className="brand-hero"><div className="brand-hero-image"><img src={brandHero} alt="ADeriva.Store brand artwork" /></div><div className="brand-hero-copy"><p className="eyebrow">ADeriva.Store</p><h1>{t.heroTitle} <em>{t.heroTitleEm}</em></h1><p className="hero-descriptor">Indie · Rock · Alternative</p><p className="hero-text">{t.heroText}</p><button className="button button-red" type="button" onClick={goToCollection}>{language === 'EN' ? 'VIEW ALL PRODUCTS' : language === 'ES' ? 'VER TODOS LOS PRODUCTOS' : language === 'FR' ? 'VOIR TOUS LES PRODUITS' : 'ALLE PRODUKTE ANSEHEN'} <ArrowRight size={16} /></button></div><div className="hero-bottom"><span>ADeriva · Music &amp; culture</span><span className="line" /></div></section>
+    <section className="brand-intro"><div><p className="eyebrow">MORE THAN CLOTHING.</p><h2>{t.mission}<br /><em>{language === 'EN' ? 'Music and style' : language === 'ES' ? 'Música y estilo' : language === 'FR' ? 'Musique et style' : 'Musik und Stil'}</em></h2></div><div className="brand-intro-copy"><p>{t.curatedEyebrow}</p><p>{t.curatedText}</p></div></section>
+    <section className="culture-worlds"><div className="section-heading"><div><p className="eyebrow">STYLE / CULTURE</p><h2>{t.manifestoTitle}<br /><em>{t.manifestoTitleEm}</em></h2></div><button className="button button-red" type="button" onClick={goToCollection}>{t.shopDrop} <ArrowRight size={16} /></button></div><div className="world-grid"><button className="world-card" type="button" onClick={goToCollection}><img src={heroImages.unisex} alt="Indie style" /><span>INDIE</span><small>Independent spirit</small></button><button className="world-card" type="button" onClick={goToCollection}><img src={heroImages.collections} alt="Alternative style" /><span>ALTERNATIVE</span><small>Different by choice</small></button><button className="world-card" type="button" onClick={goToCollection}><img src={heroImages.festival} alt="Festival crowd" /><span>FESTIVAL</span><small>Made for the loud ones</small></button></div></section>
+    <section className="shop-section coming-soon" id="collection"><div className="section-heading"><div><p className="eyebrow">{t.nav.collections}</p><h2>{t.allPieces}.<br /><em>{t.mission}.</em></h2></div></div><p className="collection-lead">{t.heroText}</p><div className="product-grid curated-grid">{selectedProducts.map(product => { const localized = getLocalizedProduct(product, language); return <Link className="curated-product" to={`/product/${getProductId(product.name)}`} key={product.name}><div className="curated-image"><img src={product.image} alt={localized.name} loading="lazy" /></div><div><h3>{localized.name}</h3><p>{localized.note} · €{product.price}</p></div></Link>; })}</div></section>
+    <section className="podcast-section"><div className="podcast-art"><img src={heroImages.vinyl} alt="Vinyl record close-up" className="podcast-vinyl" loading="lazy" /><span className="play-button"><Mic2 size={18} /></span></div><div className="podcast-copy"><p className="eyebrow">ADERIVA SOUND</p><h2>{t.podcastTitle} <em>{t.podcastTitleEm}</em></h2><p>{t.podcastText}</p><Link to="/podcast" className="button button-light">{t.listenNow} <ArrowRight size={16} /></Link></div></section>
+    <section className="instagram-strip"><div><p className="eyebrow">FOLLOW THE SCENE</p><h2>@aderiva.store</h2><p>{t.alternative}</p></div><a className="button button-dark" href="https://www.instagram.com/aderiva.store/" target="_blank" rel="noopener noreferrer"><Instagram size={17} /> INSTAGRAM</a></section>
+    <section className="newsletter community-signup"><div><p className="eyebrow">ADeriva Community</p><h2>{t.interested}<br /><em>{t.writeUs}</em></h2><p>{t.heroText}</p></div><a className="button button-light" href="mailto:aderiva.indierock@gmail.com?subject=Join%20the%20ADeriva%20community">{t.getInTouch} <ArrowRight size={16} /></a></section>
+    <section className="brand-positioning"><p>ADeriva → <strong>Music &amp; culture</strong></p><span>×</span><p>ADeriva.Store → <strong>Clothing &amp; products</strong></p></section>
+  </>;
+}

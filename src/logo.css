@@ -1,0 +1,5 @@
+/* Use the real logo asset already stored in public/images. Keep object-fit:contain so the full mark remains visible. */
+.site-header .site-logo{display:block;width:200px;height:70px;object-fit:contain;filter:invert(1) contrast(1.06);mix-blend-mode:normal}
+footer .footer-logo{display:block;width:180px;height:66px;object-fit:contain;filter:none;mix-blend-mode:multiply}
+.site-header .wordmark,footer .wordmark{display:flex;align-items:center;line-height:0}
+@media(max-width:800px){.site-header .wordmark{position:absolute;left:50%;transform:translateX(-50%);margin:0}.site-header .site-logo{width:160px;height:58px;position:static;transform:none;object-position:calc(50% + 24px) center}footer .footer-logo{width:150px;height:58px}}
