@@ -8,7 +8,7 @@ import '../brand-hero.css';
 export function Home() {
   const selectedProducts = products;
   const { language, t } = useI18n();
-  const brandHero = '/images/WhatsApp Image 2026-08-18 at 11.45.22.jpeg';
+  const brandHero = '/images/aderiva-hero.jpeg';
   const location = useLocation(); const navigate = useNavigate();
   const goToCollection = () => { if (location.pathname === '/') document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); else navigate('/#collection'); };
   return <>
