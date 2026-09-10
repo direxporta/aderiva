@@ -5,12 +5,13 @@ import { products } from '../data';
 import { ProductCard } from '../components/ProductCard';
 import { useI18n } from '../i18n';
 import { getProductCopy } from '../productTranslations';
+import { getProductId } from '../productIds';
 
 type Props = { liked: number[]; toggleLiked: (index: number) => void; onAddToCart: (productIndex: number, size: string, quantity: number) => void };
 
 export function Product({ liked, toggleLiked, onAddToCart }: Props) {
   const { id } = useParams();
-  const index = Number(id);
+  const index = products.findIndex(item => getProductId(item.name) === id);
   const product = products[index];
   const { language, t } = useI18n();
   const [activeImage, setActiveImage] = useState(0);
@@ -51,7 +52,7 @@ export function Product({ liked, toggleLiked, onAddToCart }: Props) {
           <p className="product-detail-description">{localized.description}</p>
           <div className="product-detail-section"><p className="detail-label">{t.size}</p><div className="size-selector">{product.sizes.map((size) => <button type="button" key={size} className={selectedSize === size ? 'active' : ''} onClick={() => setSelectedSize(size)}>{size}</button>)}</div></div>
           <div className="product-detail-section"><p className="detail-label">{t.quantity}</p><div className="qty-selector"><button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label={t.quantity}><Minus size={15} /></button><span>{qty}</span><button type="button" onClick={() => setQty((q) => q + 1)} aria-label={t.quantity}><Plus size={15} /></button></div></div>
-          <div className="product-actions"><button type="button" className={`add-to-bag-btn ${added ? 'added' : ''}`} onClick={handleAddToBag} disabled={!selectedSize && product.sizes.length > 1}>{added ? t.success : t.addToBag} <ShoppingBag size={17} /></button><button type="button" className={isLiked ? 'like-detail liked' : 'like-detail'} onClick={() => toggleLiked(index)} aria-label={isLiked ? t.remove : t.favourites}><Heart size={19} fill={isLiked ? 'currentColor' : 'none'} /></button></div>
+          <div className="product-actions"><button type="button" className={`add-to-bag-btn ${added ? 'added' : ''}`} onClick={handleAddToBag} disabled={!selectedSize && product.sizes.length > 1}>{added ? t.success : 'ADD TO CART'} <ShoppingBag size={17} /></button><button type="button" className={isLiked ? 'like-detail liked' : 'like-detail'} onClick={() => toggleLiked(index)} aria-label={isLiked ? t.remove : t.favourites}><Heart size={19} fill={isLiked ? 'currentColor' : 'none'} /></button></div>
           {!selectedSize && product.sizes.length > 1 && <p className="size-hint">{t.selectSize}</p>}
           <div className="product-perks"><div><Truck size={17} /><span>{t.shipping}</span></div><div><RefreshCw size={17} /><span>30-day easy returns</span></div><div><ShieldCheck size={17} /><span>{t.orderEmail}</span></div></div>
         </div>
