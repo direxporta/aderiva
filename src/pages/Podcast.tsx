@@ -1,15 +1,11 @@
 import { ArrowRight, Play } from 'lucide-react';
 import { heroImages } from '../data';
 import { useI18n } from '../i18n';
-import { usePodcastPlayer, type PodcastEpisode } from '../components/Layout';
+import { usePodcastPlayer } from '../components/Layout';
+import { episodes } from '../data/podcastEpisodes';
 
 const podcastUrl = 'https://www.ivoox.com/en/podcast-aderiva-indierock_sq_f11233631_1.html';
-const episodes: PodcastEpisode[] = [
-  { num: '150', title: 'The BEATLES — Different songs, not so well known but with musical value', url: 'https://www.ivoox.com/en/aderiva-150-thebeatles-diferentes-canciones-no-tan-conocidas-pero-que-audios-mp3_rf_177177135_1.html', embed: 'https://www.ivoox.com/player_ej_177177135_6_1.html?c1=a5241f' },
-  { num: '149', title: 'MADCOOL 2026 — The Last Dinner Party, War on Drugs, Foo Fighters, Interpol, Pixies and more', url: 'https://www.ivoox.com/en/aderiva-149-madcool2026-lastdinnerparty-warondrugs-foofighters-interpol-pixies-kol-reytons-vaccines-pulp-audios-mp3_rf_175497097_1.html', embed: 'https://www.ivoox.com/player_ej_175497097_6_1.html?c1=a5241f' },
-  { num: '148', title: 'SUBTERFUGE Records — Los Planetas, Australian Blonde, Dover, Corizonas, Neuman and more', url: 'https://www.ivoox.com/en/aderiva-148-subterfuge-records-losplanetas-australianblonde-dover-corizonas-neuman-vivasuecia-levitants-ninapolaca-audios-mp3_rf_175073485_1.html', embed: 'https://www.ivoox.com/player_ej_175073485_6_1.html?c1=a5241f' },
-];
-const copy = { EN: { title: 'Alternative Indie Rock', em: 'and more.', text: 'Never ending inspiration. In your headphones, car or speaker.', episodes: 'EPISODES', latest: 'Latest', all: 'SEE ALL EPISODES', play: 'PLAY' }, ES: { title: 'Alternative Indie Rock', em: 'y mucho más.', text: 'Inspiración sin fin. En tus auriculares, coche o altavoz.', episodes: 'EPISODIOS', latest: 'Últimos', all: 'VER TODOS LOS EPISODIOS', play: 'REPRODUCIR' }, FR: { title: 'Alternative Indie Rock', em: 'et bien plus.', text: 'Une inspiration sans fin. Dans vos écouteurs, votre voiture ou votre enceinte.', episodes: 'ÉPISODES', latest: 'Derniers', all: 'VOIR TOUS LES ÉPISODES', play: 'ÉCOUTER' }, DE: { title: 'Alternative Indie Rock', em: 'und mehr.', text: 'Endlose Inspiration. In deinen Kopfhörern, im Auto oder über den Lautsprecher.', episodes: 'EPISODEN', latest: 'Neueste', all: 'ALLE EPISODEN ANSEHEN', play: 'ABSPIELEN' } } as const;
+const copy = { EN: { title: 'Alternative Indie Rock', em: 'and more.', text: 'Never ending inspiration. In your headphones, car or speaker.', episodes: 'EPISODES', latest: 'Latest', all: 'SEE ALL EPISODES', play: 'PLAY' }, ES: { title: 'Alternative Indie Rock', em: 'y mucho más.', text: 'Inspiración sin fin. En tus auriculares, coche o altavoz.', episodes: 'EPISODIOS', latest: 'Últimos', all: 'VER TODOS LOS EPISODIOS', play: 'REPRODUCIR' }, FR: { title: 'Alternative Indie Rock', em: 'et bien plus.', text: 'Une inspiration sans fin. Dans vos écouteurs, votre voiture ou votre enceinte.', episodes: 'ÉPISODES', latest: 'Derniers', all: 'VOIR TOUS LES EPISODES', play: 'ÉCOUTER' }, DE: { title: 'Alternative Indie Rock', em: 'und mehr.', text: 'Endlose Inspiration. In deinen Kopfhörern, im Auto oder über den Lautsprecher.', episodes: 'EPISODEN', latest: 'Neueste', all: 'ALLE EPISODEN ANSEHEN', play: 'ABSPIELEN' } } as const;
 
 export function Podcast() {
   const { language } = useI18n(); const c = copy[language]; const { playPodcast } = usePodcastPlayer();
