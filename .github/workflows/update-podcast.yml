@@ -1,6 +1,9 @@
 name: Update ADeriva podcast
 
 on:
+  push:
+    paths:
+      - '.github/workflows/update-podcast.yml'
   schedule:
     - cron: '0 8 * * *'
   workflow_dispatch:
