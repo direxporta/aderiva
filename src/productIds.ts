@@ -12,6 +12,7 @@ const productIds: Record<string, string> = {
   'Camisa de Hombre con Estampado Completo': 'music-tape-shirt',
   'Guitar Temporary Tattoos': 'guitar-temporary-tattoos',
   'Tote Bag Vintage 1980': 'tote-bag-vintage-1980',
+  "Women's Flower Shirt": 'womens-flower-shirt',
 };
 
 export function getProductId(name: string) {
