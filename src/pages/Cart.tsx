@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Minus, Plus, Trash2, Mail, ArrowLeft } from 'lucide-react';
 import { products } from '../data';
 import { getProductCopy } from '../productTranslations';
+import { getProductId } from '../productIds';
 import { useCart } from '../cart';
 import { useI18n } from '../i18n';
 import './Cart.css';
@@ -25,7 +26,7 @@ export function Cart() {
     <div className="section-heading"><div><p className="eyebrow">{copy.cart}</p><h1>{copy.selection}</h1></div></div>
     {entries.length === 0 ? <div className="cart-empty"><p>{copy.empty}</p><Link className="button button-red" to="/"><ArrowLeft size={16}/> {copy.continue}</Link></div> : <>
       <div className="cart-items">{entries.map(({ item, product }) => { const localized = getProductCopy(item.productIndex, language); return <article className="cart-item" key={`${item.productIndex}-${item.size}`}>
-        <Link className="cart-item-image" to={`/product/${item.productIndex}`}><img src={product.image} alt={localized.name}/></Link>
+        <Link className="cart-item-image" to={`/product/${getProductId(product.name)}`}><img src={product.image} alt={localized.name}/></Link>
         <div className="cart-item-info"><p className="eyebrow">{localized.category}</p><h3>{localized.name}</h3><div className="cart-size">{copy.size} <strong>{item.size}</strong></div><div className="cart-controls"><div className="cart-quantity"><button type="button" onClick={() => updateQuantity(item.productIndex, item.size, item.quantity - 1)} aria-label="Decrease quantity"><Minus size={14}/></button><span>{item.quantity}</span><button type="button" onClick={() => updateQuantity(item.productIndex, item.size, item.quantity + 1)} aria-label="Increase quantity"><Plus size={14}/></button></div><button className="cart-remove" type="button" onClick={() => removeItem(item.productIndex, item.size)}><Trash2 size={16}/> {copy.remove}</button></div></div>
       </article>; })}</div>
       <div className="cart-request"><div className="cart-request-copy"><p className="eyebrow">{copy.ready}</p><h3>{totalItems} {totalItems === 1 ? copy.item : copy.items}</h3><p>{copy.requestIntro}</p></div><a className="cart-email-button" href={`mailto:aderiva.indierock@gmail.com?subject=${encodeURIComponent(`ADeriva Store — ${copy.requestButton.toLowerCase()}`)}&body=${encodeURIComponent(emailBody)}`}><Mail size={20}/><span>{copy.requestButton}</span></a></div>
