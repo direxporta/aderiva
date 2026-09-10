@@ -66,9 +66,19 @@ export function Layout({}: Props) {
       .persistent-podcast-badge{width:42px;height:42px;display:grid;place-items:center;flex:none;background:#a5241f;color:#fff;font-size:9px;font-weight:900;letter-spacing:.08em;border-radius:2px}
       .persistent-podcast-copy{min-width:0;display:flex;align-items:center;gap:9px;flex:1}.persistent-podcast-copy strong{font-size:11px;white-space:nowrap;letter-spacing:.04em}.persistent-podcast-copy span{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:rgba(255,255,255,.82)}
       .persistent-podcast-actions{display:flex;align-items:center;gap:1px;flex:none}.persistent-podcast-actions button,.persistent-podcast-actions a{width:32px;height:32px;display:grid;place-items:center;border:0;background:transparent;color:#fff;cursor:pointer;text-decoration:none;opacity:.78;border-radius:50%}.persistent-podcast-actions button:hover,.persistent-podcast-actions a:hover{background:rgba(255,255,255,.1);opacity:1}
-      .persistent-podcast-frame{width:100%;height:185px;background:#111;overflow:hidden;position:relative}.persistent-podcast-frame iframe{display:block;width:500px;height:220px;border:0;transform:scale(.84);transform-origin:top left}
+      /* The iVoox widget is 500x180. Scale the whole widget instead of putting a shorter iframe inside a taller black box. */
+      .persistent-podcast-frame{width:100%;height:151px;background:transparent;overflow:hidden;position:relative}
+      .persistent-podcast-frame iframe{display:block;width:500px;height:180px;border:0;transform:scale(.84);transform-origin:top left}
       .persistent-podcast-player.collapsed .persistent-podcast-top{height:58px}
-      @media(max-width:700px){.persistent-podcast-player{right:8px;bottom:8px;width:calc(100vw - 16px);max-width:none}.persistent-podcast-top{height:54px;padding:5px 6px 5px 8px;gap:7px}.persistent-podcast-badge{width:38px;height:38px;font-size:8px}.persistent-podcast-copy{display:block}.persistent-podcast-copy strong{display:block;margin-bottom:2px}.persistent-podcast-copy span{display:block;font-size:10px}.persistent-podcast-actions button,.persistent-podcast-actions a{width:30px;height:30px}.persistent-podcast-frame{height:176px}.persistent-podcast-frame iframe{width:480px;height:215px;transform:scale(calc((100vw - 16px) / 480));transform-origin:top left}}
+      @media(max-width:700px){
+        .persistent-podcast-player{right:8px;bottom:8px;width:calc(100vw - 16px);max-width:none}
+        .persistent-podcast-top{height:54px;padding:5px 6px 5px 8px;gap:7px}
+        .persistent-podcast-badge{width:38px;height:38px;font-size:8px}
+        .persistent-podcast-copy{display:block}.persistent-podcast-copy strong{display:block;margin-bottom:2px}.persistent-podcast-copy span{display:block;font-size:10px}
+        .persistent-podcast-actions button,.persistent-podcast-actions a{width:30px;height:30px}
+        .persistent-podcast-frame{height:calc((100vw - 16px) * .375)}
+        .persistent-podcast-frame iframe{width:500px;height:180px;transform:scale(calc((100vw - 16px) / 500));transform-origin:top left}
+      }
     `}</style>
 
     <footer><Link className="wordmark" to="/"><img className="site-logo footer-logo" src={logo} alt="ADeriva" /></Link><p>© 2026 ADeriva Store.</p><a href="https://www.instagram.com/aderiva.store/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></footer>
