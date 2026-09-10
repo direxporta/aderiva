@@ -22,7 +22,10 @@ export function Product({ onAddToCart }: Props) {
     <section className="shop-section product-page-clean">
       <div className="product-detail-grid">
         <div className="product-gallery">
-          <button className="product-gallery-main" type="button" onClick={()=>setLightboxOpen(true)} aria-label={`${localized.name} — open image gallery`}><img src={gallery[activeImage]} alt={localized.name} draggable={false}/></button>
+          <div className="product-gallery-main-wrap">
+            <button className="product-gallery-main" type="button" onClick={()=>setLightboxOpen(true)} aria-label={`${localized.name} — open image gallery`}><img src={gallery[activeImage]} alt={localized.name} draggable={false}/></button>
+            {gallery.length>1&&<><button className="product-gallery-arrow product-gallery-arrow-prev" type="button" onClick={e=>{e.stopPropagation();previousImage()}} aria-label="Previous product image"><ChevronLeft size={24}/></button><button className="product-gallery-arrow product-gallery-arrow-next" type="button" onClick={e=>{e.stopPropagation();nextImage()}} aria-label="Next product image"><ChevronRight size={24}/></button></>}
+          </div>
           <div className="product-gallery-thumbs">{gallery.map((img,i)=><button type="button" key={`${img}-${i}`} className={activeImage===i?'active':''} onClick={()=>setActiveImage(i)} aria-label={`${localized.name} — image ${i+1}`}><img src={img} alt="" loading="lazy" draggable={false}/></button>)}</div>
         </div>
         <div className="product-info"><p className="eyebrow">{localized.category}</p><h1 className="product-detail-title">{localized.name}</h1><span className="product-detail-price">€{product.price}</span>
